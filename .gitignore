@@ -1,0 +1,7 @@
+deps
+_build
+.elixir_ls
+
+# DB files
+*.db
+*.db-*
