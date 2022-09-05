@@ -36,6 +36,7 @@ If I was coding for fun and practice, then these are the things I want to check 
 - Elixir
   - Adapter patterns
   - Behavours & Protocols
+  - Finch > Httpoison
 - Elm
 - Fly.io deployment
 - Notes service as a library
@@ -45,8 +46,37 @@ If I was coding for fun and practice, then these are the things I want to check 
   - Absinthe
 - Classic Spotify project and release with Liveview, sqllite, & Fly.io
   - Surface lib for liveview = https://github.com/surface-ui/surface
+- Project: Spotify
+  - Sqllite
+  - Fly
+  - Liveview
+  - Behaviors exploration
 
 For now, in the car, it's easiest to work on adapters.
+
+### Fly.io
+
+Seems very cool, extremely streamlined, all CLI driven
+Deploy any Docker container with a `fly.toml` in the CURRENT directory.
+
+```
+> brew install flyctl
+> flyctl auth signup
+  # next time `flyctl auth login`
+> flyctl launch --image flyio/hellofly:latest
+> flyctl status
+  # This lists the host name!
+> flyctl open /path
+
+# Cleanup
+flyctl apps list
+flyctl destroy <app_name>
+```
+
+#### To Explore
+
+- CI ([Docs](https://fly.io/docs/hands-on/next))
+- Custom Domain
 
 ### Elixir Adapters via Spotify Example
 
