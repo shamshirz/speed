@@ -64,6 +64,7 @@ Deploy any Docker container with a `fly.toml` in the CURRENT directory.
 > flyctl auth signup
   # next time `flyctl auth login`
 > flyctl launch --image flyio/hellofly:latest
+  # there is also a `fly launch` cmd, what's the diff?
 > flyctl status
   # This lists the host name!
 > flyctl open /path
