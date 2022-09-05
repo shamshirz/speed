@@ -5,16 +5,18 @@ kill_signal = "SIGTERM"
 kill_timeout = 5
 processes = []
 
-[deploy]
-  release_command = "/app/bin/migrate"
-
 [env]
   PHX_HOST = "lively-sunset-9810.fly.dev"
+  DATABASE_PATH = "/data/data_volume/database.db"
   PORT = "8080"
 
 [experimental]
   allowed_public_ports = []
   auto_rollback = true
+
+[mounts]
+  source = "data_volume"
+  destination = "/data"
 
 [[services]]
   http_checks = []

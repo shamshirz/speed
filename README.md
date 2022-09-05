@@ -74,6 +74,19 @@ flyctl apps list
 flyctl destroy <app_name>
 ```
 
+#### Setting up a Volume for our DB files
+
+Since the SQLite db is stored local to the app as files, we need to persist that data across deploys.
+We can do that with a docker volume attached to our fly container
+
+- Create a Volume: `fly volumes create <volume_name> -a <app_name>`
+- Mount it `fly.toml [[mount]]…`
+- Add `DATABASE_PATH` env var
+  - Can add to the `[env]` section of `fly.toml`
+- Move migrate action to within `start/2` rather than as a "release_command" in `fly.toml`
+  - [Essential details Gist](https://gist.github.com/mcrumm/98059439c673be7e0484589162a54a01)
+  - Update (Fly.io example app)[https://github.com/fly-apps/hello_elixir_sqlite] with these findings?
+
 #### To Explore
 
 - CI ([Docs](https://fly.io/docs/hands-on/next))

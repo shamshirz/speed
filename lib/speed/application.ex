@@ -7,6 +7,10 @@ defmodule Speed.Application do
 
   @impl true
   def start(_type, _args) do
+    # Run Migrations
+    # SQLite needs to run migrations within the app since it's not a standalone server like postgres
+    Speed.Release.migrate()
+
     children = [
       # Start the Ecto repository
       Speed.Repo,
