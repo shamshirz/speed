@@ -58,12 +58,12 @@ defmodule Speed.Spotify do
 
   @spec create_auth_token! :: String.t()
   defp create_auth_token! do
-    :timer.sleep(1)
+    :timer.sleep(50)
     "auth_token"
   end
 
   defp httpoison_get(_url, _headers) do
-    :timer.sleep(1)
+    :timer.sleep(50)
     %{body: Jason.encode!(%{"data" => Speed.Constants.fake_top_played()})}
   end
 end
