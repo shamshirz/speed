@@ -46,7 +46,7 @@ If I was coding for fun and practice, then these are the things I want to check 
   - Write to the DB and have it live update in liveview?
   - SQLite
     - ✅ Write a migration for a table
-    - Need to connect via ssh+iex to write to table
+    - ✅ Need to connect via ssh+iex to write to table
   - ✅ Fly
   - Liveview
     - Need a view
@@ -65,17 +65,23 @@ Deploy any Docker container with a `fly.toml` in the CURRENT directory.
 
 ```
 > brew install flyctl
-> flyctl auth signup
-  # next time `flyctl auth login`
-> flyctl launch --image flyio/hellofly:latest
+  # aliased to just `fly`
+> fly auth signup
+  # next time `fly auth login`
+> fly launch --image flyio/hellofly:latest
   # there is also a `fly launch` cmd, what's the diff?
-> flyctl status
+> fly status
   # This lists the host name!
-> flyctl open /path
+> fly open /path
+> fly deploy
 
 # Cleanup
-flyctl apps list
-flyctl destroy <app_name>
+fly apps list
+fly destroy <app_name>
+
+# Connect
+> fly ssh console
+> app/bin/speed remote
 ```
 
 #### Setting up a Volume for our DB files
