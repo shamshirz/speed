@@ -1,5 +1,5 @@
 defmodule SpeedWeb.PageControllerTest do
-  use SpeedWeb.ConnCase
+  use SpeedWeb.ConnCase, async: true
 
   test "GET /", %{conn: conn} do
     conn = get(conn, "/")

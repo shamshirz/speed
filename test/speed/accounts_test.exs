@@ -1,5 +1,5 @@
 defmodule Speed.AccountsTest do
-  use Speed.DataCase
+  use Speed.DataCase, async: true
 
   alias Speed.Accounts
 
