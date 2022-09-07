@@ -32,31 +32,35 @@ Even now, looking at this, I'm thinking, "too long, needs to be susinct".
 
 If I was coding for fun and practice, then these are the things I want to check out.
 
-- Sqlite
 - Elixir
   - Adapter patterns
   - Behavours & Protocols
   - Finch > Httpoison
 - Elm
-- Fly.io deployment
-- Notes service as a library
+- Project: Notes service as a library
   - Maybe just library writing in general
 - OSS contributions
   - Let someone else do the planning and I can just jump in to do the execution
   - Absinthe
-- Classic Spotify project and release with Liveview, sqllite, & Fly.io
-  - Surface lib for liveview = https://github.com/surface-ui/surface
 - Project: Spotify
-  - Sqllite
-  - Fly
+  - Write to the DB and have it live update in liveview?
+  - SQLite
+    - ✅ Write a migration for a table
+    - Need to connect via ssh+iex to write to table
+  - ✅ Fly
   - Liveview
+    - Need a view
+    - Surface lib for liveview = https://github.com/surface-ui/surface
+  - Could create a scheduled job to pull Spotify data and update
   - Behaviors exploration
+  - Share learning in blog post?
+  - Share learning in Fly.io example repo?
 
 For now, in the car, it's easiest to work on adapters.
 
 ### Fly.io
 
-Seems very cool, extremely streamlined, all CLI driven
+Extremely streamlined, heroku2.0, all CLI driven
 Deploy any Docker container with a `fly.toml` in the CURRENT directory.
 
 ```
@@ -85,12 +89,22 @@ We can do that with a docker volume attached to our fly container
   - Can add to the `[env]` section of `fly.toml`
 - Move migrate action to within `start/2` rather than as a "release_command" in `fly.toml`
   - [Essential details Gist](https://gist.github.com/mcrumm/98059439c673be7e0484589162a54a01)
-  - Update (Fly.io example app)[https://github.com/fly-apps/hello_elixir_sqlite] with these findings?
+  - Update [Fly.io example app](https://github.com/fly-apps/hello_elixir_sqlite) with these findings?
 
 #### To Explore
 
 - CI ([Docs](https://fly.io/docs/hands-on/next))
 - Custom Domain
+-
+
+### SQLite
+
+```
+> sqlite3 local_db.db
+> .schema users
+> .tables
+`
+
 
 ### Elixir Adapters via Spotify Example
 
@@ -128,3 +142,4 @@ We can do that with a docker volume attached to our fly container
     - Different adapters for different Email senders and Test adapter that you can assert on
   - Mock - Jóse lib, behavior based mocking. Doesn't provide a solution for non-test env
   - spotify_ex - uses mock
+```
