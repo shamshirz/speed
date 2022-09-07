@@ -10,6 +10,8 @@ import Config
 config :speed,
   ecto_repos: [Speed.Repo]
 
+config :speed, Speed.Repo, migration_primary_key: [name: :id, type: :binary_id]
+
 # Configures the endpoint
 config :speed, SpeedWeb.Endpoint,
   url: [host: "localhost"],
