@@ -44,6 +44,7 @@ defmodule Speed.MixProject do
       {:phoenix_live_dashboard, "~> 0.6"},
       {:phoenix_live_view, "~> 0.17.5"},
       {:plug_cowboy, "~> 2.5"},
+      {:req, "~> 0.3.0"},
       {:swoosh, "~> 1.3"},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},

@@ -35,13 +35,15 @@ If I was coding for fun and practice, then these are the things I want to check 
 - Elixir
   - Adapter patterns
   - Behavours & Protocols
-  - Finch > Httpoison
+  - req > Finch > Httpoison
 - Elm
 - Project: Notes service as a library
   - Maybe just library writing in general
 - OSS contributions
   - Let someone else do the planning and I can just jump in to do the execution
   - Absinthe
+- Project: Company Research
+  - Liveview page that lets you request company information
 - Project: Spotify
   - Write to the DB and have it live update in liveview?
   - SQLite
