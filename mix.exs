@@ -35,6 +35,7 @@ defmodule Speed.MixProject do
     [
       {:ecto_sql, "~> 3.6"},
       {:ecto_sqlite3, "~> 0.8.0"},
+      {:floki, "~> 0.33.0"},
       {:gettext, "~> 0.18"},
       {:httpoison, "~> 1.8"},
       {:jason, "~> 1.2"},
@@ -49,7 +50,6 @@ defmodule Speed.MixProject do
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
       {:esbuild, "~> 0.4", [runtime: Mix.env() == :dev]},
-      {:floki, ">= 0.30.0", [only: :test]},
       {:phoenix_live_reload, "~> 1.2", [only: :dev]}
     ]
   end

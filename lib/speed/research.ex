@@ -1,4 +1,4 @@
-defmodule Research do
+defmodule Speed.Research do
   @moduledoc """
   The goal of this module is to collect cools that can all incrementally discover information about a company.
 
@@ -28,8 +28,55 @@ defmodule Research do
   |> Research.company()
   |> IO.inspect()
   """
-  @spec company(String.t()) :: {:ok, Research.Dnb.t()} | {:error, String.t()}
+  @spec company(String.t()) :: %{hits: integer(), results: [Speed.Research.Finding.t()]}
   def company(name) do
-    Research.Dnb.search(name)
+    results =
+      [
+        fn -> Speed.Research.Clearbit.search(name) end,
+        fn -> Speed.Research.Dnb.search(name) end,
+        fn -> Speed.Research.CompanyRevenueDiscovery.search(name) end
+      ]
+      |> Enum.map(&Task.async/1)
+      |> Enum.map(&Task.await/1)
+      |> Enum.filter(&match?({:ok, _}, &1))
+      |> IO.inspect()
+      |> Enum.flat_map(fn
+        {:ok, result} when is_list(result) -> result
+        {:ok, result} -> [result]
+      end)
+
+    %{
+      hits: Enum.count(results),
+      results: results
+    }
+  end
+
+  def sample_test do
+    for company_name <- Speed.Research.Data.sample(), reduce: 0 do
+      acc ->
+        with result <- company(company_name) do
+          IO.puts("#{company_name} Hits: #{result.hits}")
+          Process.sleep(5000)
+          acc + result.hits
+        else
+          error ->
+            IO.inspect(error, label: "error")
+            acc
+        end
+    end
+  end
+
+  @doc """
+  Use the text similarity between the client name and the domain to sort domains by similarity.
+  Unused rn
+  """
+  @spec sort_domains_by_name_similarity(String.t(), [String.t()]) :: [String.t()]
+  def sort_domains_by_name_similarity(client_name, domains) do
+    domains
+    |> Enum.map(fn domain -> {domain, String.jaro_distance(client_name, domain)} end)
+    |> Enum.sort(fn {_, one_distance}, {_, two_distance} ->
+      one_distance > two_distance
+    end)
+    |> Enum.map(&elem(&1, 0))
   end
 end

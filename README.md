@@ -26,9 +26,9 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
 Read the writing-to-think article and really liked it
 Then read the 40yrs as a developer post and also really liked it
 
-I want to write to think here and "just do it" to explore some coding ideas. I think I can be a judgemental programmer about "reinventing the wheel" and about people not thinking through their projects before working on them. For that reason, I think I've been judgemental of myself and not practicing because I am too tired of project planning to do it for myself right now. No planning = no coding, so too tired from project planning at job has lead to me doing tno practice work - which I would (or atleast historically) have enjoyed.
+I want to write to think here and "just do it" to explore some coding ideas. I think I can be a judgemental programmer about "reinventing the wheel" and about people not thinking through their projects before working on them. For that reason, I think I've been judgemental of myself and not practicing because I am too tired of project planning to do it for myself right now. No planning = no coding, so too tired from project planning at job has lead to me doing tno practice work - which I would (or at least historically) have enjoyed.
 
-Even now, looking at this, I'm thinking, "too long, needs to be susinct".
+Even now, looking at this, I'm thinking, "too long, needs to be succinct".
 
 If I was coding for fun and practice, then these are the things I want to check out.
 
@@ -44,6 +44,13 @@ If I was coding for fun and practice, then these are the things I want to check 
   - Absinthe
 - Project: Company Research
   - Liveview page that lets you request company information
+  - Very low expectations - requests fail, data is incomplete, no problem!
+  - Next step Ideas
+    - ✅ Add more sources
+    - ✅ Improve the UI
+    - Aggressive Cache (perma-cache)
+    - ✅ Add secondary data collection based on results of first
+    - Testing
 - Project: Spotify
   - Write to the DB and have it live update in liveview?
   - SQLite
@@ -58,12 +65,20 @@ If I was coding for fun and practice, then these are the things I want to check 
   - Share learning in blog post?
   - Share learning in Fly.io example repo?
 
-For now, in the car, it's easiest to work on adapters.
-
 ### Fly.io
 
-Extremely streamlined, heroku2.0, all CLI driven
+Streamlined, heroku2.0, all CLI driven
 Deploy any Docker container with a `fly.toml` in the CURRENT directory.
+
+After setup, all I need to do is
+
+```
+fly deploy
+fly status # lists hosts
+fly open /research # opens the app in the browser
+```
+
+#### Setup notes
 
 ```
 > brew install flyctl
@@ -111,8 +126,7 @@ We can do that with a docker volume attached to our fly container
 > sqlite3 local_db.db
 > .schema users
 > .tables
-`
-
+```
 
 ### Elixir Adapters via Spotify Example
 
@@ -150,4 +164,3 @@ We can do that with a docker volume attached to our fly container
     - Different adapters for different Email senders and Test adapter that you can assert on
   - Mock - Jóse lib, behavior based mocking. Doesn't provide a solution for non-test env
   - spotify_ex - uses mock
-```

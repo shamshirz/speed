@@ -6,20 +6,46 @@ defmodule SpeedWeb.ResearchLive do
     <form phx-submit="search">
       <input type="text" name="q" value={@query} list="matches" placeholder="Search..." {%{readonly: @loading}}/>
       <%= if is_binary(@result) do %><pre><%= @result %></pre><% end %>
-      <%= if is_map(@result) do %>
-        <ul>
-          <li> primary_name -> <%= @result.primary_name %> </li>
-          <li> company_address -> <%= @result.company_address %> </li>
-          <li> company_city -> <%= @result.company_city %> </li>
-          <li> company_country -> <%= @result.company_country %> </li>
-          <li> company_region -> <%= @result.company_region %> </li>
-          <li> country_region -> <%= @result.country_region %> </li>
-          <li> company_zip_code -> <%= @result.company_zip_code %> </li>
-          <li> industry_name -> <%= @result.industry_name %> </li>
-          <li> Raw Data -> <a href={"https://www.dnb.com" <> @result.company_profile_link }> DNB Record for <%= @result.primary_name %> </a>  </li>
-        </ul>
-      <% end %>
+
     </form>
+    <%= if is_list(@result) do %>
+      <table>
+        <tr>
+          <th>Legal Name</th>
+          <th>Address</th>
+          <th>City</th>
+          <th>Country</th>
+          <th>State</th>
+          <th>Zip</th>
+          <th>Description</th>
+          <th>Domain</th>
+          <th>Employees</th>
+          <th>Estimated Revenue</th>
+          <th>Industry</th>
+          <th>Naics</th>
+          <th>Source</th>
+          <th>Source Url</th>
+        </tr>
+        <%= for row <- @result do %>
+          <tr>
+            <td><%= row.legal_name %></td>
+            <td><%= row.company_address %></td>
+            <td><%= row.company_city %></td>
+            <td><%= row.company_country %></td>
+            <td><%= row.company_region %></td>
+            <td><%= row.company_zip_code %></td>
+            <td><%= row.description %></td>
+            <td><%= row.domain %></td>
+            <td><%= row.employees %></td>
+            <td><%= row.estimated_revenue %></td>
+            <td><%= row.industry %></td>
+            <td><%= row.naics_code %></td>
+            <td><%= row.source %></td>
+            <td><%= row.source_url %></td>
+          </tr>
+        <% end %>
+      </table>
+    <% end %>
     """
   end
 
@@ -33,12 +59,8 @@ defmodule SpeedWeb.ResearchLive do
   end
 
   def handle_info({:search, query}, socket) do
-    case Research.company(query) do
-      {:ok, result} ->
-        {:noreply, assign(socket, result: result, loading: false)}
-
-      {:error, reason} ->
-        {:noreply, assign(socket, result: reason, loading: false)}
-    end
+    %{hits: hits, results: findings} = Speed.Research.company(query)
+    IO.puts("Result for #{query}: #{hits} Hits")
+    {:noreply, assign(socket, result: findings, loading: false)}
   end
 end
