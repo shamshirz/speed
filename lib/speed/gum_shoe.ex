@@ -1,6 +1,6 @@
-defmodule Speed.Research do
+defmodule Speed.GumShoe do
   @moduledoc """
-  The goal of this module is to collect cools that can all incrementally discover information about a company.
+  The goal of this module is to collect tools that can all incrementally discover information about a company.
 
   ## Problem
   When considering offering services to a company, a level of due diligence is required.
@@ -23,16 +23,16 @@ defmodule Speed.Research do
   """
 
   alias Speed.Repo
+  alias Speed.Findings.Finding
 
   require Ecto.Query
 
   @doc """
-
   "popsockets"
   |> Research.company()
   |> IO.inspect()
   """
-  @spec company(String.t()) :: %{hits: integer(), results: [Speed.Findings.Finding.t()]}
+  @spec company(String.t()) :: %{hits: integer(), results: [Finding.t()]}
   def company(name) do
     results =
       case check_cache(name) |> IO.inspect(label: "check cache response") do
@@ -52,12 +52,12 @@ defmodule Speed.Research do
     }
   end
 
-  @spec query_apis(String.t()) :: [Speed.Findings.Finding.t()]
+  @spec query_apis(String.t()) :: [Finding.t()]
   def query_apis(name) do
     [
-      fn -> Speed.Research.Clearbit.search(name) end,
-      fn -> Speed.Research.Dnb.search(name) end,
-      fn -> Speed.Research.CompanyRevenueDiscovery.search(name) end
+      fn -> Speed.Findings.Clearbit.search(name) end,
+      fn -> Speed.Findings.Dnb.search(name) end,
+      fn -> Speed.Findings.LookupCompanyRevenue.search(name) end
     ]
     |> Enum.map(&Task.async/1)
     |> Enum.map(&Task.await/1)
@@ -71,7 +71,7 @@ defmodule Speed.Research do
 
   @spec check_cache(String.t()) :: {:ok, [Speed.Finding.t()]} | {:error, :not_found}
   def check_cache(search_name) do
-    case Speed.Findings.Finding
+    case Finding
          |> Ecto.Query.where(search_name: ^search_name)
          |> Speed.Repo.all() do
       [] -> {:error, :not_found}
@@ -85,10 +85,10 @@ defmodule Speed.Research do
   _note_
   Could be an insert_all and handle upsert (we _should_ only insert if we didn't find any)
   """
-  @spec update_cache([Speed.Findings.Finding.t()]) :: [Speed.Findings.Finding.t()]
+  @spec update_cache([Finding.t()]) :: [Finding.t()]
   def update_cache(results) do
     results
-    |> Enum.map(&Speed.Findings.Finding.changeset(&1, %{}))
+    |> Enum.map(&Finding.changeset(&1, %{}))
     |> IO.inspect(label: "cache update response")
     |> Enum.each(&Repo.insert/1)
     |> IO.inspect(label: "cache update response")
@@ -97,7 +97,7 @@ defmodule Speed.Research do
   end
 
   def sample_test do
-    for company_name <- Speed.Research.Data.sample(), reduce: 0 do
+    for company_name <- Speed.Findings.Data.sample(), reduce: 0 do
       acc ->
         with result <- company(company_name) do
           IO.puts("#{company_name} Hits: #{result.hits}")

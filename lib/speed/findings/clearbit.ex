@@ -1,4 +1,4 @@
-defmodule Speed.Research.Clearbit do
+defmodule Speed.Findings.Clearbit do
   @moduledoc """
   """
 

@@ -1,4 +1,4 @@
-defmodule Speed.Research.Dnb do
+defmodule Speed.Findings.Dnb do
   @moduledoc """
   Wrapper around DNB data access
   It is their API, but it's unclear if we should access it directly vs. scraping the page

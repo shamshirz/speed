@@ -59,7 +59,7 @@ defmodule SpeedWeb.ResearchLive do
   end
 
   def handle_info({:search, query}, socket) do
-    %{results: findings} = Speed.Research.company(query)
+    %{results: findings} = Speed.GumShoe.company(query)
     # IO.puts("Result for #{query}: #{hits} Hits")
     {:noreply, assign(socket, result: findings, loading: false)}
   end

@@ -1,4 +1,4 @@
-defmodule Speed.Research.CompanyRevenueDiscovery do
+defmodule Speed.Findings.LookupCompanyRevenue do
   @moduledoc """
   This Module is an experimental tool to guess client information.
   The goal is to collect as much information as possible in an automated way to assist
