@@ -19,6 +19,7 @@ defmodule Speed.SpotifyBehaviorTest do
     end
   end
 
+  @tag :skip
   describe "SpotifyBehavior.Local" do
     test "get_top_played!/0 should be fast" do
       {local_time, _data} = :timer.tc(&Speed.SpotifyBehavior.Local.get_top_played!/0)
