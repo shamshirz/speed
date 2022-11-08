@@ -31,6 +31,12 @@ defmodule Speed.FindingsTest do
       assert Findings.list_findings() == [finding]
     end
 
+    test "list_findings/1 returns filtered findings" do
+      finding = finding_fixture()
+      assert Findings.list_findings(finding.search_name) == [finding]
+      assert Findings.list_findings("faux name") == []
+    end
+
     test "get_finding!/1 returns the finding with given id" do
       finding = finding_fixture()
       assert Findings.get_finding!(finding.id) == finding
@@ -71,6 +77,29 @@ defmodule Speed.FindingsTest do
       assert finding.search_name == "some search_name"
       assert finding.source == "some source"
       assert finding.source_url == "some source_url"
+    end
+
+    test "create_findings/1 with valid data creates multiple findings" do
+      valid_attrs = %Finding{
+        company_address: "some company_address",
+        company_city: "some company_city",
+        company_country: "some company_country",
+        company_region: "some company_region",
+        company_zip_code: "some company_zip_code",
+        description: "some description",
+        domain: "some domain",
+        employees: "some employees",
+        estimated_revenue: "some estimated_revenue",
+        industry: "some industry",
+        legal_name: "some legal_name",
+        naics_code: "some naics_code",
+        search_name: "some search_name",
+        source: "some source",
+        source_url: "some source_url"
+      }
+
+      assert [%Finding{} = finding] = Findings.create_findings([valid_attrs])
+      refute is_nil(finding.id)
     end
 
     test "create_finding/1 with invalid data returns error changeset" do

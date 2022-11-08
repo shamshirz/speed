@@ -22,6 +22,20 @@ defmodule Speed.Findings do
   end
 
   @doc """
+  Returns findings where search_name matches
+
+  ## Examples
+
+      iex> list_findings("crazyt3xt")
+      []
+  """
+  def list_findings(search_name) do
+    Finding
+    |> Ecto.Query.where(search_name: ^search_name)
+    |> Speed.Repo.all()
+  end
+
+  @doc """
   Gets a single finding.
 
   Raises `Ecto.NoResultsError` if the Finding does not exist.
@@ -53,6 +67,17 @@ defmodule Speed.Findings do
     %Finding{}
     |> Finding.changeset(attrs)
     |> Repo.insert()
+  end
+
+  @doc """
+  Insert all of the results 1 at a time
+
+  _note_
+  Could be an insert_all and handle upsert (we _should_ only insert if we didn't find any)
+  """
+  @spec create_findings([Finding.t()]) :: [Finding.t()]
+  def create_findings(findings) do
+    for finding <- findings, do: finding |> Finding.changeset(%{}) |> Repo.insert!()
   end
 
   @doc """
