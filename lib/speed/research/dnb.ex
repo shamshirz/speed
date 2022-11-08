@@ -5,7 +5,7 @@ defmodule Speed.Research.Dnb do
   Watching the network traffic, it's possible to make the same requests
   """
 
-  @spec search(String.t()) :: {:ok, [Speed.Research.Finding.t()]} | {:error, String.t()}
+  @spec search(String.t()) :: {:ok, [Speed.Findings.Finding.t()]} | {:error, String.t()}
   def search(company) do
     base_url = "https://www.dnb.com"
     path = "/apps/dnb/servlets/CompanySearchServlet"
@@ -27,9 +27,9 @@ defmodule Speed.Research.Dnb do
     end
   end
 
-  @spec to_finding(map(), String.t()) :: Speed.Research.Finding.t()
+  @spec to_finding(map(), String.t()) :: Speed.Findings.Finding.t()
   def to_finding(response_body, search_name) do
-    %Speed.Research.Finding{
+    %Speed.Findings.Finding{
       company_address: response_body["companyAddress"],
       company_city: response_body["companyCity"],
       company_country: response_body["companyCountry"],

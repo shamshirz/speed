@@ -54,12 +54,12 @@ defmodule Speed.Research.CompanyRevenueDiscovery do
     |> String.trim()
   end
 
-  @spec to_finding([String.t()], company :: String.t()) :: Speed.Research.Finding.t()
+  @spec to_finding([String.t()], company :: String.t()) :: Speed.Findings.Finding.t()
   def to_finding(
         [name_row, city, state, zip, rev, employee_count, _payroll, industry],
         search_name
       ) do
-    %Speed.Research.Finding{
+    %Speed.Findings.Finding{
       legal_name: parse_name_row(name_row),
       company_city: Floki.text(city),
       company_region: Floki.text(state),

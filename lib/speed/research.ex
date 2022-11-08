@@ -22,33 +22,78 @@ defmodule Speed.Research do
    * Company Data and websites that claim to have information on them even if we can't parse it
   """
 
+  alias Speed.Repo
+
+  require Ecto.Query
+
   @doc """
 
   "popsockets"
   |> Research.company()
   |> IO.inspect()
   """
-  @spec company(String.t()) :: %{hits: integer(), results: [Speed.Research.Finding.t()]}
+  @spec company(String.t()) :: %{hits: integer(), results: [Speed.Findings.Finding.t()]}
   def company(name) do
     results =
-      [
-        fn -> Speed.Research.Clearbit.search(name) end,
-        fn -> Speed.Research.Dnb.search(name) end,
-        fn -> Speed.Research.CompanyRevenueDiscovery.search(name) end
-      ]
-      |> Enum.map(&Task.async/1)
-      |> Enum.map(&Task.await/1)
-      |> Enum.filter(&match?({:ok, _}, &1))
-      |> IO.inspect()
-      |> Enum.flat_map(fn
-        {:ok, result} when is_list(result) -> result
-        {:ok, result} -> [result]
-      end)
+      case check_cache(name) |> IO.inspect(label: "check cache response") do
+        {:error, _} ->
+          name
+          |> query_apis()
+          |> update_cache()
+
+        {:ok, cache_hit} ->
+          IO.puts("Cache hit: #{name}")
+          cache_hit
+      end
 
     %{
       hits: Enum.count(results),
       results: results
     }
+  end
+
+  @spec query_apis(String.t()) :: [Speed.Findings.Finding.t()]
+  def query_apis(name) do
+    [
+      fn -> Speed.Research.Clearbit.search(name) end,
+      fn -> Speed.Research.Dnb.search(name) end,
+      fn -> Speed.Research.CompanyRevenueDiscovery.search(name) end
+    ]
+    |> Enum.map(&Task.async/1)
+    |> Enum.map(&Task.await/1)
+    |> Enum.filter(&match?({:ok, _}, &1))
+    # |> IO.inspect()
+    |> Enum.flat_map(fn
+      {:ok, result} when is_list(result) -> result
+      {:ok, result} -> [result]
+    end)
+  end
+
+  @spec check_cache(String.t()) :: {:ok, [Speed.Finding.t()]} | {:error, :not_found}
+  def check_cache(search_name) do
+    case Speed.Findings.Finding
+         |> Ecto.Query.where(search_name: ^search_name)
+         |> Speed.Repo.all() do
+      [] -> {:error, :not_found}
+      results -> {:ok, results}
+    end
+  end
+
+  @doc """
+  Insert all of the results 1 at a time
+
+  _note_
+  Could be an insert_all and handle upsert (we _should_ only insert if we didn't find any)
+  """
+  @spec update_cache([Speed.Findings.Finding.t()]) :: [Speed.Findings.Finding.t()]
+  def update_cache(results) do
+    results
+    |> Enum.map(&Speed.Findings.Finding.changeset(&1, %{}))
+    |> IO.inspect(label: "cache update response")
+    |> Enum.each(&Repo.insert/1)
+    |> IO.inspect(label: "cache update response")
+
+    results
   end
 
   def sample_test do

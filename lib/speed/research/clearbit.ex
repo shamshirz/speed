@@ -12,7 +12,7 @@ defmodule Speed.Research.Clearbit do
     "name" => "Corvus Insurance"
   }
   """
-  @spec search(String.t()) :: {:ok, Speed.Research.Finding.t()} | {:error, String.t()}
+  @spec search(String.t()) :: {:ok, Speed.Findings.Finding.t()} | {:error, String.t()}
   def search(company_name) do
     url = "https://company.clearbit.com/v1/domains/find"
     headers = [{"Authorization", "Bearer #{api_key()}"}]
@@ -117,7 +117,7 @@ defmodule Speed.Research.Clearbit do
    "utcOffset" => -4
   }}
   """
-  @spec search_domain(String.t()) :: {:ok, Speed.Research.Finding.t()} | {:error, String.t()}
+  @spec search_domain(String.t()) :: {:ok, Speed.Findings.Finding.t()} | {:error, String.t()}
   def search_domain(domain_without_protocol) do
     base_url = "https://company.clearbit.com/v2/companies/find"
     params = [{"domain", domain_without_protocol}]
@@ -132,9 +132,9 @@ defmodule Speed.Research.Clearbit do
     end
   end
 
-  @spec to_finding(map()) :: Speed.Research.Finding.t()
+  @spec to_finding(map()) :: Speed.Findings.Finding.t()
   def to_finding(response_body) do
-    %Speed.Research.Finding{
+    %Speed.Findings.Finding{
       company_address: response_body["geo"]["streetAddress"],
       company_city: response_body["geo"]["city"],
       company_country: response_body["geo"]["country"],

@@ -59,8 +59,8 @@ defmodule SpeedWeb.ResearchLive do
   end
 
   def handle_info({:search, query}, socket) do
-    %{hits: hits, results: findings} = Speed.Research.company(query)
-    IO.puts("Result for #{query}: #{hits} Hits")
+    %{results: findings} = Speed.Research.company(query)
+    # IO.puts("Result for #{query}: #{hits} Hits")
     {:noreply, assign(socket, result: findings, loading: false)}
   end
 end
