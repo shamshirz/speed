@@ -1,93 +1,90 @@
-# Speed
+# Speed: phx + sqlite
 
-Phoenix setup with sqlite3.
+A playground for experiments. So far they are
 
-For reproduction with your own app
+- `@behaviour` strategies
+- `floki`
+- Fly.io
+- `GumShoe` - company data collection
+- liveview
+- `req`
+- sqlite
+
+## Make one of these yourself!
 
 ```bash
 > mix phx.new <app_name> --database sqlite3
 > touch .tools-versions && vim !$
 > touch .gitignore && vim !$ # add ignore for DB files
-> mix ecto.create
+> mix setup # deps, and ecto
+> iex -S mix phx.server
 ```
-
-To start your Phoenix server:
-
-- Install dependencies with `mix deps.get`
-- Create and migrate your database with `mix ecto.setup`
-- Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
-
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
-
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
 
 ## Notes to self
 
 Read the writing-to-think article and really liked it
 Then read the 40yrs as a developer post and also really liked it
 
-I want to write to think here and "just do it" to explore some coding ideas. I think I can be a judgemental programmer about "reinventing the wheel" and about people not thinking through their projects before working on them. For that reason, I think I've been judgemental of myself and not practicing because I am too tired of project planning to do it for myself right now. No planning = no coding, so too tired from project planning at job has lead to me doing tno practice work - which I would (or atleast historically) have enjoyed.
+I want to write to think here and "just do it" to explore some coding ideas. I think I can be a judgemental programmer about "reinventing the wheel" and about people not thinking through their projects before working on them. For that reason, I think I've been judgemental of myself and not practicing because I am too tired of project planning to do it for myself right now. No planning = no coding, so too tired from project planning at work has lead to me doing no practice work - which I would (or at least historically) have enjoyed.
 
-Even now, looking at this, I'm thinking, "too long, needs to be susinct".
+Even now, looking at this, I'm thinking, "too long, needs to be succinct".
 
 If I was coding for fun and practice, then these are the things I want to check out.
 
-- Elixir
-  - Adapter patterns
-  - Behavours & Protocols
-  - Finch > Httpoison
-- Elm
-- Project: Notes service as a library
-  - Maybe just library writing in general
-- OSS contributions
-  - Let someone else do the planning and I can just jump in to do the execution
-  - Absinthe
+- Project: Company Research (GumShoe)
+  - ✅ Liveview
+  - ✅ Expectations - Display any data returned
+  - ✅ Aggressive Cache (perma-cache)
+  - ✅ Testing (not API level)
+  - API level testing (-> mock & ex_vcr examples -> blog post?)
+  - UI components via new phoenix w/ tailwind
+  - Share learning in Fly.io example repo?
 - Project: Spotify
   - Write to the DB and have it live update in liveview?
   - SQLite
     - ✅ Write a migration for a table
     - ✅ Need to connect via ssh+iex to write to table
-  - ✅ Fly
-  - Liveview
-    - Need a view
-    - Surface lib for liveview = https://github.com/surface-ui/surface
   - Could create a scheduled job to pull Spotify data and update
   - Behaviors exploration
-  - Share learning in blog post?
-  - Share learning in Fly.io example repo?
+- Project: Notes service as a library
+  - Maybe just library writing in general
+- Blog post with samples from here?
+- Elixir
+  - Adapter patterns
+  - Behavours & Protocols
+- Elm?
+- OSS contributions
+  - Let someone else do the planning and I can just jump in to do the execution
+  - Absinthe
 
-For now, in the car, it's easiest to work on adapters.
+## Fly.io
 
-### Fly.io
-
-Extremely streamlined, heroku2.0, all CLI driven
+Streamlined, heroku2.0.
 Deploy any Docker container with a `fly.toml` in the CURRENT directory.
 
-```
-> brew install flyctl
-  # aliased to just `fly`
-> fly auth signup
-  # next time `fly auth login`
-> fly launch --image flyio/hellofly:latest
-  # there is also a `fly launch` cmd, what's the diff?
-> fly status
-  # This lists the host name!
-> fly open /path
-> fly deploy
+After setup, all I need to do is
 
-# Cleanup
+```
+fly deploy
+fly status # lists hosts
+fly open /research # opens the app in the browser
+```
+
+### Setup notes
+
+```
+> brew install flyctl # fly vs. flyctl?
+> fly auth signup # next time `fly auth login`
 fly apps list
-fly destroy <app_name>
+fly destroy <app_name> # cleanup
 
-# Connect
-> fly ssh console
-> app/bin/speed remote
+> fly ssh console # Connect
+ssh> app/bin/speed remote
 ```
 
-#### Setting up a Volume for our DB files
+### Add Volume for our DB files
 
-Since the SQLite db is stored local to the app as files, we need to persist that data across deploys.
-We can do that with a docker volume attached to our fly container
+Since the SQLite db is stored local to the app, we need to persist that data across deploys.
 
 - Create a Volume: `fly volumes create <volume_name> -a <app_name>`
 - Mount it `fly.toml [[mount]]…`
@@ -97,11 +94,9 @@ We can do that with a docker volume attached to our fly container
   - [Essential details Gist](https://gist.github.com/mcrumm/98059439c673be7e0484589162a54a01)
   - Update [Fly.io example app](https://github.com/fly-apps/hello_elixir_sqlite) with these findings?
 
-#### To Explore
+### To Explore
 
-- CI ([Docs](https://fly.io/docs/hands-on/next))
 - Custom Domain
--
 
 ### SQLite
 
@@ -109,8 +104,7 @@ We can do that with a docker volume attached to our fly container
 > sqlite3 local_db.db
 > .schema users
 > .tables
-`
-
+```
 
 ### Elixir Adapters via Spotify Example
 
@@ -148,4 +142,3 @@ We can do that with a docker volume attached to our fly container
     - Different adapters for different Email senders and Test adapter that you can assert on
   - Mock - Jóse lib, behavior based mocking. Doesn't provide a solution for non-test env
   - spotify_ex - uses mock
-```

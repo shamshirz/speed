@@ -20,6 +20,13 @@ if System.get_env("PHX_SERVER") do
   config :speed, SpeedWeb.Endpoint, server: true
 end
 
+if config_env() != :test do
+  config :speed, Speed.Findings.Clearbit,
+    api_key:
+      System.get_env("CLEARBIT_API_KEY") ||
+        raise("CLEARBIT_API_KEY is missing")
+end
+
 if config_env() == :prod do
   database_path =
     System.get_env("DATABASE_PATH") ||
