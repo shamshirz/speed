@@ -25,3 +25,7 @@ config :logger, level: :warn
 
 # Initialize plugs at runtime for faster test compilation
 config :phoenix, :plug_init_mode, :runtime
+
+config :speed, Speed.Findings.Clearbit,
+  api_key: "CLEARBIT_API_KEY",
+  adapter_function: &Speed.Findings.ClearbitMock.call/1

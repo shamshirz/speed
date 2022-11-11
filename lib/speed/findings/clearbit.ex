@@ -18,7 +18,6 @@ defmodule Speed.Findings.Clearbit do
     headers = [{"Authorization", "Bearer #{api_key()}"}]
     params = [{"name", company_name}]
     response = Req.get!(url, headers: headers, params: params)
-    IO.inspect(response)
 
     case response.body do
       %{"domain" => domain} -> search_domain(domain)
@@ -122,9 +121,14 @@ defmodule Speed.Findings.Clearbit do
     base_url = "https://company.clearbit.com/v2/companies/find"
     params = [{"domain", domain_without_protocol}]
     headers = [{"Authorization", "Bearer #{api_key()}"}]
-    response = Req.get!(base_url, headers: headers, params: params)
+    # Optionally set the adapter for Req if we configured one - for testing
+    options =
+      case adapter_function() do
+        nil -> [headers: headers, params: params]
+        adapter_function -> [headers: headers, params: params, adapter: adapter_function]
+      end
 
-    # IO.inspect(response)
+    response = Req.get!(base_url, options)
 
     case response.body do
       body when is_map(body) -> {:ok, to_finding(body)}
@@ -155,5 +159,13 @@ defmodule Speed.Findings.Clearbit do
 
   def source_name, do: "Clearbit"
 
-  def api_key, do: Application.get_env(:speed, __MODULE__)[:api_key]
+  defp api_key, do: Application.get_env(:speed, __MODULE__)[:api_key]
+  defp adapter_function, do: Application.get_env(:speed, __MODULE__)[:adapter_function]
+end
+
+defmodule Speed.Findings.ClearbitMock do
+  def call(request) do
+    response = %Req.Response{status: 200, body: "it works!"}
+    {request, response}
+  end
 end
