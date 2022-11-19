@@ -22,6 +22,8 @@ end
 
 if config_env() != :test do
   config :speed, Speed.Findings.Clearbit,
+    domain_adapter: &Speed.Findings.ClearbitMock.domain/1,
+    details_adapter: &Speed.Findings.ClearbitMock.details/1,
     api_key:
       System.get_env("CLEARBIT_API_KEY") ||
         raise("CLEARBIT_API_KEY is missing")

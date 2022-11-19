@@ -29,6 +29,7 @@ defmodule Speed.GumShoe do
   alias Speed.Findings.Finding
 
   require Ecto.Query
+  require Logger
 
   @doc """
   Return data about the given company
@@ -76,8 +77,15 @@ defmodule Speed.GumShoe do
       fn -> Speed.Findings.LookupCompanyRevenue.search(name) end
     ]
     |> Enum.map(&Task.async/1)
-    |> Enum.map(&Task.await/1)
-    |> Enum.filter(&match?({:ok, _}, &1))
+    |> Enum.map(&Task.await(&1, 10_000))
+    |> Enum.filter(fn
+      {:ok, _} ->
+        true
+
+      {:error, reason} ->
+        Logger.warning("No data: #{inspect(reason)}")
+        false
+    end)
     |> Enum.flat_map(fn
       {:ok, result} when is_list(result) -> result
       {:ok, result} -> [result]

@@ -1,5 +1,7 @@
 # Speed: phx + sqlite
 
+![Visit](https://img.shields.io/website?down_color=red&down_message=offline&up_color=green&up_message=online&url=https%3A%2F%2Flively-sunset-9810.fly.dev%2Fresearch)
+
 A playground for experiments. So far they are
 
 - `@behaviour` strategies
