@@ -29,6 +29,10 @@ if config_env() != :test do
         raise("CLEARBIT_API_KEY is missing")
 end
 
+config :spotify_ex,
+  access_token: System.get_env("SPOTIFY_ACCESS_TOKEN") || raise("SPOTIFY_ACCESS_TOKEN is missing"),
+  refresh_token: System.get_env("SPOTIFY_REFRESH_TOKEN") || raise("SPOTIFY_REFRESH_TOKEN is missing")
+
 if config_env() == :prod do
   database_path =
     System.get_env("DATABASE_PATH") ||

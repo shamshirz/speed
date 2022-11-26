@@ -51,7 +51,8 @@ defmodule Speed.MixProject do
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
       {:esbuild, "~> 0.4", [runtime: Mix.env() == :dev]},
-      {:phoenix_live_reload, "~> 1.2", [only: :dev]}
+      {:phoenix_live_reload, "~> 1.2", [only: :dev]},
+      {:mox, "~> 1.0", only: :test}
     ]
   end
 
