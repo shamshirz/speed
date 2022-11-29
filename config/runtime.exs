@@ -29,8 +29,10 @@ if config_env() != :test do
         raise("CLEARBIT_API_KEY is missing")
 end
 
-config :spotify_ex,
+config :speed, Speed.Spotify,
   access_token: System.get_env("SPOTIFY_ACCESS_TOKEN") || raise("SPOTIFY_ACCESS_TOKEN is missing"),
+  client_id: System.get_env("SPOTIFY_CLIENT_ID") || raise("SPOTIFY_CLIENT_ID is missing"),
+  client_secret: System.get_env("SPOTIFY_CLIENT_SECRET") || raise("SPOTIFY_CLIENT_SECRET is missing"),
   refresh_token: System.get_env("SPOTIFY_REFRESH_TOKEN") || raise("SPOTIFY_REFRESH_TOKEN is missing")
 
 if config_env() == :prod do
