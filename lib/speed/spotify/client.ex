@@ -53,18 +53,19 @@ defmodule Speed.Spotify.Client do
     end
   end
 
+  def base_url, do: "https://api.spotify.com/v1/me/top/"
+
   @impl SpotifyBehavior
-  def top, do: top(get_creds())
+  def top(creds \\ get_creds()) do
+    # IO.inspect(creds, label: "top with these creds")
+    url = base_url() <> "artists"
+    headers = to_get_headers(creds)
 
-  def top(creds) do
-    IO.inspect(creds, label: "top with these creds")
-    for_library_creds = Spotify.Credentials.new(creds.access_token, creds.refresh_token)
+    case Req.get!(url, headers: headers) do
+      %Req.Response{status: 200, body: %{"items" => artists}} ->
+        {:ok, Enum.map(artists, fn artist -> artist["name"] end)}
 
-    case Spotify.Personalization.top_artists(for_library_creds) |> IO.inspect(label: "top result") do
-      {:ok, %{items: artists}} ->
-        {:ok, Enum.map(artists, fn artist -> artist.name end)}
-
-      {:ok, %{"error" => %{"message" => "The access token expired", "status" => 401}}} ->
+      %Req.Response{body: %{"error" => %{"message" => "The access token expired", "status" => 401}}} ->
         creds
         |> refresh_access_token()
         |> put_creds()
@@ -110,24 +111,25 @@ defmodule Speed.Spotify.Client do
   end
 
   @spec request_refreshed_access_token(t()) :: Req.Response.t()
-  def request_refreshed_access_token(%{refresh_token: rt, client_id: ci, client_secret: cs}) do
+  def request_refreshed_access_token(%{refresh_token: rt} = creds) do
     endpoint = "https://accounts.spotify.com/api/token"
     body = "grant_type=refresh_token&refresh_token=#{rt}"
 
-    headers =
-      ci
-      |> encoded_credentials(cs)
-      |> headers()
+    headers = to_refresh_headers(creds)
 
     Req.post!(endpoint, body: body, headers: headers)
   end
 
-  def headers(client_auth) do
+  @spec to_refresh_headers(t()) :: [{String.t(), String.t()}]
+  def to_refresh_headers(%{client_id: ci, client_secret: cs}) do
+    encoded_credentials = :base64.encode("#{ci}:#{cs}")
+
     [
-      {"Authorization", "Basic #{client_auth}"},
+      {"Authorization", "Basic #{encoded_credentials}"},
       {"Content-Type", "application/x-www-form-urlencoded"}
     ]
   end
 
-  def encoded_credentials(client_id, secret_key), do: :base64.encode("#{client_id}:#{secret_key}")
+  @spec to_get_headers(t()) :: [{String.t(), String.t()}]
+  def to_get_headers(%{access_token: at}), do: [{"Authorization", "Bearer #{at}"}]
 end

@@ -5,7 +5,7 @@ defmodule Speed.MixProject do
     [
       app: :speed,
       version: "0.1.0",
-      elixir: "~> 1.12",
+      elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -20,7 +20,7 @@ defmodule Speed.MixProject do
   def application do
     [
       mod: {Speed.Application, []},
-      extra_applications: [:logger, :runtime_tools, :spotify_ex]
+      extra_applications: [:logger, :runtime_tools]
     ]
   end
 
@@ -37,7 +37,7 @@ defmodule Speed.MixProject do
       {:ecto_sqlite3, "~> 0.8.0"},
       {:floki, "~> 0.33.0"},
       {:gettext, "~> 0.18"},
-      {:httpoison, "~> 1.8", override: true},
+      {:httpoison, "~> 1.8"},
       {:jason, "~> 1.2"},
       {:phoenix, "~> 1.6.11"},
       {:phoenix_ecto, "~> 4.4"},
@@ -46,7 +46,6 @@ defmodule Speed.MixProject do
       {:phoenix_live_view, "~> 0.17.5"},
       {:plug_cowboy, "~> 2.5"},
       {:req, "~> 0.3.0"},
-      {:spotify_ex, "~> 2.2.1"},
       {:swoosh, "~> 1.3"},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
