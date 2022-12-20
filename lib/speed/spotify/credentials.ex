@@ -1,4 +1,6 @@
 defmodule Speed.Spotify.Credentials do
+  use Agent
+
   @type t :: %__MODULE__{
           access_token: String.t(),
           client_id: String.t(),
@@ -31,7 +33,7 @@ defmodule Speed.Spotify.Credentials do
 
   @spec default_creds :: t()
   def default_creds do
-    %Credentials{
+    %__MODULE__{
       access_token: Application.fetch_env!(:speed, Speed.Spotify)[:access_token],
       client_id: Application.fetch_env!(:speed, Speed.Spotify)[:client_id],
       client_secret: Application.fetch_env!(:speed, Speed.Spotify)[:client_secret],

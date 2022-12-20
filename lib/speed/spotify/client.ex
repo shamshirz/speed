@@ -25,7 +25,6 @@ defmodule Speed.Spotify.Client do
   """
   alias Speed.Spotify.{SpotifyBehavior, Credentials}
 
-  use Agent
   @behaviour SpotifyBehavior
 
   @impl SpotifyBehavior
