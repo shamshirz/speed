@@ -10,11 +10,9 @@ A playground for experiments. So far they are
 
 - Update Landing Page to reflect what the Speed project really is
 - Tailwind
-- Remove `spotify_ex` not worth the dependency
-- Improve Config ([Felt Article - Config](https://felt.com/blog/elixir-configuration))
 - Spotify Project
   - Write to DB
-  - Scheduled job to pull Spotify data
+    - Scheduled job to pull Spotify data
   - Behaviors exploration
   - Make the UI nice
 - Company Research Project (GumShoe)
@@ -23,6 +21,7 @@ A playground for experiments. So far they are
 - Service as a library Project (notes)
 - Elm
 - Custom Domain
+- Add Status Page ([patio11 post](https://www.kalzumeus.com/2010/04/20/building-highly-reliable-websites-for-small-companies/))
 
 ## Make one of these yourself!
 

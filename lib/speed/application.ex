@@ -21,7 +21,7 @@ defmodule Speed.Application do
       # Start the Endpoint (http/https)
       SpeedWeb.Endpoint,
       # Start a worker by calling: Speed.Worker.start_link(arg)
-      {Speed.Spotify.Client, []}
+      {Speed.Spotify.Credentials, []}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
