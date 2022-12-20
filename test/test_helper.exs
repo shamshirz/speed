@@ -1,4 +1,4 @@
-Mox.defmock(MockSpotifyBehavior, for: Speed.Spotify.SpotifyBehaviorV3)
+Mox.defmock(MockSpotifyBehavior, for: Speed.Spotify.SpotifyBehavior)
 Application.put_env(:speed, :spotify_client, MockSpotifyBehavior)
 
 ExUnit.start()

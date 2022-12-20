@@ -1,5 +1,5 @@
 defmodule Speed.SpotifyTest do
-  use Speed.DataCase, async: true
+  use Speed.Case, async: true
 
   import Mox
 
@@ -11,11 +11,6 @@ defmodule Speed.SpotifyTest do
 
       assert {:ok, returned} = Speed.Spotify.top_artists()
       assert length(returned) == 2
-    end
-
-    test "falls back to Mock stub" do
-      assert {:ok, returned} = Speed.Spotify.top_artists()
-      assert length(returned) == 3
     end
   end
 end

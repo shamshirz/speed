@@ -29,7 +29,6 @@ defmodule Speed.DataCase do
 
   setup tags do
     Speed.DataCase.setup_sandbox(tags)
-    Mox.stub(MockSpotifyBehavior, :top, fn -> {:ok, ["Kendrick Lamar", "Bad Bunny", "J Balvin"]} end)
     :ok
   end
 

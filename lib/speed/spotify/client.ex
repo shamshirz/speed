@@ -23,10 +23,10 @@ defmodule Speed.Spotify.Client do
   ## Next step
   curl -H "Authorization: Basic <client_n_secret>" -d grant_type=authorization_code -d code=<code> -d redirect_uri=http://localhost/callback https://accounts.spotify.com/api/token
   """
-  alias Speed.Spotify.SpotifyBehaviorV3
+  alias Speed.Spotify.SpotifyBehavior
 
   use Agent
-  @behaviour SpotifyBehaviorV3
+  @behaviour SpotifyBehavior
 
   @type t :: %__MODULE__{
           access_token: String.t(),
@@ -53,8 +53,10 @@ defmodule Speed.Spotify.Client do
     end
   end
 
-  @impl SpotifyBehaviorV3
-  def top(creds \\ get_creds()) do
+  @impl SpotifyBehavior
+  def top, do: top(get_creds())
+
+  def top(creds) do
     IO.inspect(creds, label: "top with these creds")
     for_library_creds = Spotify.Credentials.new(creds.access_token, creds.refresh_token)
 
