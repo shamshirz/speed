@@ -1,10 +1,16 @@
 defmodule Speed.SpotifyTest do
-  use ExUnit.Case, async: true
+  use Speed.Case, async: true
 
-  test "get_top_played!/0" do
-    expected = Speed.Constants.fake_top_played() |> Jason.encode!() |> Jason.decode!()
-    actual = Speed.Spotify.get_top_played!()
+  import Mox
 
-    assert expected == actual
+  setup :verify_on_exit!
+
+  describe "top_artists/0" do
+    test "fetches a list of artists" do
+      expect(MockSpotifyBehavior, :top, fn -> {:ok, ["Kendrick Lamar", "Bad Bunny"]} end)
+
+      assert {:ok, returned} = Speed.Spotify.top_artists()
+      assert length(returned) == 2
+    end
   end
 end

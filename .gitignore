@@ -1,6 +1,7 @@
 deps
 _build
 .elixir_ls
+.env
 
 # DB files
 *.db

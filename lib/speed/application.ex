@@ -19,9 +19,9 @@ defmodule Speed.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Speed.PubSub},
       # Start the Endpoint (http/https)
-      SpeedWeb.Endpoint
+      SpeedWeb.Endpoint,
       # Start a worker by calling: Speed.Worker.start_link(arg)
-      # {Speed.Worker, arg}
+      {Speed.Spotify.Client, []}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

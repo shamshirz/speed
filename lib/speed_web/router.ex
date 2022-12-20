@@ -20,6 +20,7 @@ defmodule SpeedWeb.Router do
     get("/", PageController, :index)
 
     live("/research", ResearchLive)
+    live("/spotify", SpotifyLive)
   end
 
   # Other scopes may use custom stacks.

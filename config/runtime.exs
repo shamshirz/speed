@@ -20,6 +20,15 @@ if System.get_env("PHX_SERVER") do
   config :speed, SpeedWeb.Endpoint, server: true
 end
 
+if config_env() == :test do
+  config :speed, Speed.Spotify,
+    access_token: "FAKE",
+    client_id: "FAKE",
+    client_secret: "FAKE",
+    refresh_token: "FAKE"
+end
+
+# ================= LIVE CONFIG =================
 if config_env() != :test do
   config :speed, Speed.Findings.Clearbit,
     domain_adapter: &Speed.Findings.ClearbitMock.domain/1,
@@ -27,6 +36,12 @@ if config_env() != :test do
     api_key:
       System.get_env("CLEARBIT_API_KEY") ||
         raise("CLEARBIT_API_KEY is missing")
+
+  config :speed, Speed.Spotify,
+    access_token: System.get_env("SPOTIFY_ACCESS_TOKEN") || raise("SPOTIFY_ACCESS_TOKEN is missing"),
+    client_id: System.get_env("SPOTIFY_CLIENT_ID") || raise("SPOTIFY_CLIENT_ID is missing"),
+    client_secret: System.get_env("SPOTIFY_CLIENT_SECRET") || raise("SPOTIFY_CLIENT_SECRET is missing"),
+    refresh_token: System.get_env("SPOTIFY_REFRESH_TOKEN") || raise("SPOTIFY_REFRESH_TOKEN is missing")
 end
 
 if config_env() == :prod do
