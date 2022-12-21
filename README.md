@@ -6,22 +6,22 @@ A playground for experiments. So far they are
 
 > `@behaviour` strategies, `floki`, Fly.io, `GumShoe`, liveview, `req`, sqlite
 
+- Monitored with [BetterUptime](https://betteruptime.com/team/84463/monitors/950504)
+
 ## Ideas
 
 - Update Landing Page to reflect what the Speed project really is
-- Tailwind
 - Spotify Project
   - Write to DB
     - Scheduled job to pull Spotify data
   - Behaviors exploration
-  - Make the UI nice
 - Company Research Project (GumShoe)
   - API level testing
 - Blog Post on API testing?
 - Service as a library Project (notes)
 - Elm
 - Custom Domain
-- Add Status Page ([patio11 post](https://www.kalzumeus.com/2010/04/20/building-highly-reliable-websites-for-small-companies/))
+- Set favicon
 
 ## Make one of these yourself!
 

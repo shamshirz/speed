@@ -1,7 +1,8 @@
-/* This file is for your main application CSS */
-@import "./phoenix.css";
-@import "./custom.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+/* This file is for your main application CSS */
 /* Alerts and form errors used by phx.new */
 .alert {
   padding: 15px;
@@ -119,3 +120,4 @@
   0% { opacity: 1; }
   100% { opacity: 0; }
 }
+
