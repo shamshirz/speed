@@ -7,12 +7,12 @@ defmodule SpeedWeb.PageControllerTest do
 
   test "GET /", %{conn: conn} do
     conn = get(conn, "/")
-    assert html_response(conn, 200) =~ "Welcome to Phoenix!"
+    assert html_response(conn, 200) =~ "More from SylverStudios"
   end
 
   test "GET /status", %{conn: conn} do
     expect(MockSpotifyBehavior, :top, fn -> {:ok, ["Kendrick Lamar", "Bad Bunny"]} end)
     conn = get(conn, "/status")
-    assert html_response(conn, 200) =~ "pill-good"
+    assert html_response(conn, 200) =~ "Spotify"
   end
 end

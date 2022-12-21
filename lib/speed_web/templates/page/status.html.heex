@@ -1,6 +1,11 @@
 <section class="main">
-  <h1> Status </h1>
-  <%= for feature <- @features do %>
-    <li> <SpeedWeb.FeatureStatus.pill {feature} /> </li>
-  <% end %>
+  <h1 class="text-3xl font-bold underline mt-5">
+    Status
+  </h1>
+
+  <div class="flex flex-wrap mb-4">
+    <%= for feature <- @features do %>
+      <div class="w-1/2 h-20"> <SpeedWeb.FeatureStatus.pill {feature} /> </div>
+    <% end %>
+  </div>
 </section>
