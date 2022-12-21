@@ -13,10 +13,10 @@ defmodule SpeedWeb.PageController do
       end
 
     features = [
-      %{name: "Spotify", success?: spotify_online?, classes: status_to_class(spotify_online?)}
+      %{name: "Spotify", online?: spotify_online?, link_href: Routes.live_path(conn, SpeedWeb.SpotifyLive)}
     ]
 
-    if Enum.any?(features, &(&1.success? == false)) do
+    if Enum.any?(features, &(&1.online? == false)) do
       conn
       |> put_status(500)
       |> render("status.html", features: features)
