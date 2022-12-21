@@ -50,31 +50,6 @@ defmodule Speed.Spotify.Client do
 
   def base_url, do: "https://api.spotify.com/v1/me/top/"
 
-  @spec test_connection(Credentials.t(), Keyword.t()) :: boolean()
-  def test_connection(creds \\ Credentials.get_creds(), options \\ [retry: true]) do
-    url = "https://api.spotify.com/v1/me"
-    headers = Credentials.to_get_headers(creds)
-
-    case Req.get!(url, headers: headers) do
-      %Req.Response{status: 200} ->
-        true
-
-      %Req.Response{body: %{"error" => %{"message" => "The access token expired", "status" => 401}}} ->
-        if options[:retry] do
-          creds
-          |> refresh_access_token()
-          |> Credentials.put_creds()
-          |> test_connection(retry: false)
-        else
-          false
-        end
-
-      response ->
-        IO.inspect(response)
-        false
-    end
-  end
-
   @spec refresh_access_token(Credentials.t()) :: Credentials.t()
   defp refresh_access_token(credentials) do
     case request_refreshed_access_token(credentials) |> IO.inspect(label: "refresh_access_token") do

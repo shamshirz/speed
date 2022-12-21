@@ -6,7 +6,11 @@ defmodule SpeedWeb.PageController do
   end
 
   def status(conn, _params) do
-    spotify_online? = Speed.Spotify.Client.test_connection()
+    spotify_online? =
+      case Speed.Spotify.top_artists() do
+        {:ok, _} -> true
+        _ -> false
+      end
 
     features = [
       %{name: "Spotify", success?: spotify_online?, classes: status_to_class(spotify_online?)}
