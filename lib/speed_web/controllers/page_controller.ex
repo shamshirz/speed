@@ -2,7 +2,24 @@ defmodule SpeedWeb.PageController do
   use SpeedWeb, :controller
 
   def index(conn, _params) do
-    render(conn, "index.html")
+    cards = [
+      %{
+        title: "My Spotify Artists",
+        description: "My Top Artists loaded Live using Phoenix on Fly.io",
+        tags: ["Elixir", "Phoenix", "Liveview", "Spotify"],
+        image_src: SpeedWeb.Router.Helpers.static_path(conn, "/images/phoenix.png"),
+        link_href: Routes.live_path(conn, SpeedWeb.SpotifyLive)
+      },
+      %{
+        title: "Gumshoe",
+        description: "Automated private detective for company data ",
+        tags: ["Elixir", "Phoenix", "Liveview"],
+        image_src: SpeedWeb.Router.Helpers.static_path(conn, "/images/phoenix.png"),
+        link_href: Routes.live_path(conn, SpeedWeb.ResearchLive)
+      }
+    ]
+
+    render(conn, "index.html", cards: cards)
   end
 
   def status(conn, _params) do
@@ -24,7 +41,4 @@ defmodule SpeedWeb.PageController do
       render(conn, "status.html", features: features)
     end
   end
-
-  defp status_to_class(true), do: "pill pill-good"
-  defp status_to_class(false), do: "pill pill-bad"
 end
