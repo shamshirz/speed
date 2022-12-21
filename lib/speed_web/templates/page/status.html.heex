@@ -1,0 +1,6 @@
+<section class="main">
+  <h1> Status </h1>
+  <%= for feature <- @features do %>
+    <li> <SpeedWeb.FeatureStatus.pill {feature} /> </li>
+  <% end %>
+</section>
