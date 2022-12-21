@@ -18,6 +18,7 @@ defmodule SpeedWeb.Router do
     pipe_through(:browser)
 
     get("/", PageController, :index)
+    get("/status", PageController, :status)
 
     live("/research", ResearchLive)
     live("/spotify", SpotifyLive)

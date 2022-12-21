@@ -52,5 +52,10 @@ defmodule Speed.Spotify.Credentials do
   end
 
   @spec to_get_headers(t()) :: [{String.t(), String.t()}]
-  def to_get_headers(%{access_token: at}), do: [{"Authorization", "Bearer #{at}"}]
+  def to_get_headers(%{access_token: at}) do
+    [
+      {"Authorization", "Bearer #{at}"},
+      {"Content-Type", "application/json"}
+    ]
+  end
 end
