@@ -21,17 +21,8 @@ A playground for experiments. So far they are
 - Service as a library Project (notes)
 - Elm
 - Custom Domain
-- Set favicon
-
-## Make one of these yourself!
-
-```bash
-> mix phx.new <app_name> --database sqlite3
-> touch .tools-versions && vim !$
-> touch .gitignore && vim !$ # add ignore for DB files
-> mix setup # deps, and ecto
-> iex -S mix phx.server
-```
+- Dota2 Exploration
+- Discord Exploration
 
 ## Notes to self
 
