@@ -5,7 +5,6 @@ import Config
 # system starts, so it is typically used to load production configuration
 # and secrets from environment variables or elsewhere. Do not define
 # any compile-time configuration in here, as it won't be applied.
-# The block below contains prod specific runtime configuration.
 
 # ## Using releases
 #
@@ -46,6 +45,8 @@ if config_env() == :dev do
     client_id: System.get_env("SPOTIFY_CLIENT_ID") || raise("SPOTIFY_CLIENT_ID is missing"),
     client_secret: System.get_env("SPOTIFY_CLIENT_SECRET") || raise("SPOTIFY_CLIENT_SECRET is missing"),
     refresh_token: System.get_env("SPOTIFY_REFRESH_TOKEN") || raise("SPOTIFY_REFRESH_TOKEN is missing")
+
+  config :slack, api_token: System.get_env("SLACK_API_TOKEN") || raise("SLACK_API_TOKEN is missing")
 end
 
 # ================= PROD CONFIG =================
@@ -60,6 +61,8 @@ if config_env() == :prod do
     client_id: System.get_env("SPOTIFY_CLIENT_ID") || raise("SPOTIFY_CLIENT_ID is missing"),
     client_secret: System.get_env("SPOTIFY_CLIENT_SECRET") || raise("SPOTIFY_CLIENT_SECRET is missing"),
     refresh_token: System.get_env("SPOTIFY_REFRESH_TOKEN") || raise("SPOTIFY_REFRESH_TOKEN is missing")
+
+  config :slack, api_token: System.get_env("SLACK_API_TOKEN") || raise("SLACK_API_TOKEN is missing")
 
   database_path =
     System.get_env("DATABASE_PATH") ||

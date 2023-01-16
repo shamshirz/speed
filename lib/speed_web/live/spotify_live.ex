@@ -36,6 +36,12 @@ defmodule SpeedWeb.SpotifyLive do
 
   def handle_info(:load, socket) do
     result = Speed.Spotify.top_artists()
+
+    Task.Supervisor.start_child(Speed.TaskSupervisor, fn ->
+      Speed.Slack.ping_me("Omg someone viewed the Spotify page!")
+      :ok
+    end)
+
     {:noreply, assign(socket, data: result)}
   end
 end
