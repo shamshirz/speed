@@ -20,6 +20,8 @@ defmodule Speed.Application do
       {Phoenix.PubSub, name: Speed.PubSub},
       # Start the Endpoint (http/https)
       SpeedWeb.Endpoint,
+      # Task Supervisor for "set and forget" slack messages
+      {Task.Supervisor, name: Speed.TaskSupervisor},
       # Start a worker by calling: Speed.Worker.start_link(arg)
       {Speed.Spotify.Credentials, []}
     ]
